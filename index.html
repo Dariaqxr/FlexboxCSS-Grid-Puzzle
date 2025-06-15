@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox and CSS Grid Puzzle</title>
+    <!-- Tailwind CSS CDN for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Apply Inter font and basic styles to the body */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e0ffe0, #c8f0c8, #e0ffe0); /* Light pastel green background */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-x: hidden; /* Prevents horizontal scrolling */
+        }
+
+        /* Main grid container for the page layout */
+        .grid-container {
+            display: grid;
+            gap: 40px; /* Increased spacing for better composition */
+            padding: 50px; /* More internal padding for a premium feel */
+            max-width: 1400px; /* Further increase max width */
+            width: 100%;
+            background: linear-gradient(160deg, #fefefe, #f9f9f9); /* Fresh, almost white gradient */
+            border-radius: 40px; /* Even more rounded corners */
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45), 0 10px 25px rgba(0, 0, 0, 0.2); /* Very deep, multi-layered shadow */
+            box-sizing: border-box;
+            border: 2px solid rgba(230, 230, 230, 0.8); /* More visible but thin border */
+            transform: scale(0.9); /* Slight initial scaling down */
+            animation: scaleInBounce 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; /* New, bouncier entrance animation */
+            position: relative; /* For potential future effects */
+            overflow: hidden; /* For background effects */
+        }
+
+        /* Background bubbles/shapes for extra visual flair */
+        .grid-container::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            animation: floatBubble 10s infinite ease-in-out alternate;
+            z-index: 0;
+        }
+
+        .grid-container::after {
+            content: '';
+            position: absolute;
+            bottom: -70px;
+            right: -70px;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            animation: floatBubble 12s infinite ease-in-out reverse;
+            z-index: 0;
+        }
+
+        @keyframes scaleInBounce {
+            0% { transform: scale(0.7); opacity: 0; }
+            80% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes floatBubble {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(20px, 30px) scale(1.1); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        /* Define grid areas for responsiveness */
+        .grid-container {
+            grid-template-areas:
+                "header"
+                "puzzle"
+                "date";
+            grid-template-columns: 1fr;
+            grid-template-rows: auto 1fr auto;
+        }
+
+        /* Responsive adjustments for larger screens (tablet and desktop) */
+        @media (min-width: 768px) {
+            .grid-container {
+                grid-template-areas:
+                    "header header"
+                    "puzzle puzzle"
+                    "date date";
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Responsive adjustments for even larger screens (desktop) */
+        @media (min-width: 1024px) {
+            .grid-container {
+                grid-template-areas:
+                    "header header"
+                    "puzzle puzzle"
+                    "date date";
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto 1fr auto;
+            }
+        }
+
+        /* Styling for grid sections */
+        .grid-section {
+            background: linear-gradient(145deg, #fffcfc, #f8f8f8); /* Very light, almost white gradient for sections */
+            padding: 35px; /* Increased internal padding */
+            border-radius: 30px; /* Even more rounded corners */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), inset 0 3px 12px rgba(255, 255, 255, 0.9); /* Deep shadow with inner glow */
+            border: 1px solid rgba(240, 240, 240, 0.9); /* Subtle but crisp border */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); /* Smoother transition with more complex curve */
+            z-index: 1; /* To be above background bubbles */
+            position: relative; /* For hover effects */
+        }
+
+        .grid-section:hover {
+            transform: translateY(-12px) scale(1.02); /* More pronounced lift and slight enlarge */
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25), inset 0 5px 15px rgba(255, 255, 255, 0.95); /* Enhanced shadow */
+        }
+
+        /* Assign grid areas to specific sections */
+        .header-section {
+            grid-area: header;
+            background: linear-gradient(135deg, #ffaa85, #ff7e5f); /* Peach/Coral gradient */
+            color: #ffffff; /* White for contrast */
+            font-weight: bold;
+            text-shadow: 3px 4px 8px rgba(0, 0, 0, 0.5); /* More pronounced text shadow */
+            border: none;
+            padding: 50px; /* Max padding for header */
+            border-radius: 30px; /* Rounded corners */
+        }
+
+        .header-section h1 {
+            font-size: 4em; /* Very large heading */
+            letter-spacing: 3px; /* Increased letter spacing */
+            margin-bottom: 15px;
+            animation: textGlow 1.5s infinite alternate; /* Text glow animation */
+        }
+
+        @keyframes textGlow {
+            from { text-shadow: 3px 4px 8px rgba(0, 0, 0, 0.5); }
+            to { text-shadow: 3px 4px 12px rgba(0, 0, 0, 0.7), 0 0 18px rgba(255, 255, 255, 0.7); } /* Brighter glow */
+        }
+
+        .header-section p {
+            font-size: 1.8em; /* Increased font size for subheadings */
+            opacity: 0.95;
+            line-height: 1.4;
+        }
+
+        .puzzle-section {
+           grid-area: puzzle;
+           padding: 50px;
+              background-color: #fdfdfd;
+              border-radius: 30px;
+          display: flex;
+              justify-content: center;
+             align-items: center;
+             min-height: 600px;
+           position: relative;
+        }
+
+        .date-section {
+            grid-area: date;
+            background-color: #ffeadf; /* Light peach for date */
+            color: #cc6640; /* Dark brown for contrast */
+            font-size: 1.2em;
+            padding: 30px;
+            border-radius: 30px;
+        }
+
+        /* Flex container for the puzzle pieces */
+        .puzzle-flex-container {
+            display: flex; /* ОБЯЗАТЕЛЬНО: это flex-контейнер */
+    flex-wrap: wrap; /* ОБЯЗАТЕЛЬНО: кусочки должны переноситься на новую строку */
+    width: 100%;
+    max-width: 700px;
+    aspect-ratio: 4 / 3; /* Соотношение сторон для всего контейнера пазла */
+    border: 10px solid #ff7e5f;
+    border-radius: 25px;
+    overflow: visible;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), inset 0 0 25px rgba(0, 0, 0, 0.3);
+    position: relative;
+    perspective: 1200px;
+    background-color: #ffffff;
+    transform: rotateX(5deg) rotateY(5deg);
+    animation: puzzleEntrance 1.5s ease-out forwards;
+
+    /* Решения для пробелов: */
+    font-size: 0; /* Убирает пробелы между inline-block элементами (тегами img) */
+    line-height: 0; /* Аналогично, помогает схлопнуть вертикальные пробелы */
+    
+    /* Убедитесь, что flex-элементы выравниваются от начала, без лишнего пространства */
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: flex-start;
+    position: relative; /* Возможно, потребуется, чтобы z-index работал внутри .puzzle-section */
+    z-index: 10; /* Установите его ниже, чем z-index success-message */
+          } 
+
+
+        @keyframes puzzleEntrance {
+            from { transform: rotateX(30deg) rotateY(30deg) scale(0.5); opacity: 0; }
+            to { transform: rotateX(5deg) rotateY(5deg) scale(1); opacity: 1; }
+        }
+
+
+        /* Individual puzzle pieces (flex items) */
+        .puzzle-piece {
+           width: calc(100% / 4); /* 4 кусочка в ряд, каждый 1/4 ширины контейнера */
+    /* *** ВАЖНОЕ ИЗМЕНЕНИЕ ДЛЯ ВЫСОТЫ *** */
+    /* Если у нас 4 ряда, каждый ряд должен занимать 1/4 (25%) высоты родителя,
+       который уже ограничен aspect-ratio 4:3. */
+    height: 25%; /* Каждый кусочек занимает 25% высоты родительского контейнера */
+    /* *** КОНЕЦ ВАЖНОГО ИЗМЕНЕНИЯ *** */
+
+    box-sizing: border-box; /* Важно, чтобы border не добавлял к ширине/высоте */
+    display: block; /* Убедитесь, что это блочный элемент, чтобы vertical-align не влиял */
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.8); /* ЭТА СТРОКА ВЕРНУТЬ! */
+    border-radius: 10px;
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    filter: brightness(1);
+    transform-style: preserve-3d;
+    vertical-align: top; /* Хорошая практика для img, даже если display: block это уже решает */
+        }
+
+        .puzzle-piece:hover {
+            transform: scale(1.15) translateY(-15px) rotateX(10deg) rotateY(10deg) rotateZ(5deg); /* More pronounced 3D rotation, enlarge, and lift */
+            z-index: 2;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 255, 255, 0.7) inset; /* Enhanced shadow with inner glow */
+            filter: brightness(1.2); /* More noticeable brightening */
+        }
+
+        /* Hide the faulty puzzle piece */
+        .hidden-piece {
+            display: none;
+        }
+
+        /* Success message styling */
+        .success-message {
+            position: absolute;
+            bottom: -50px; /* Positioned below puzzle container */
+            left: 50%;
+            width: 90%; /* Width for ribbon effect */
+            max-width: 600px; /* Max width for the ribbon */
+            transform: translate(-50%, 0) rotateX(20deg) scale(0.3); /* Starts smaller and rotated */
+            transform-origin: center top; /* Center of rotation */
+            background: linear-gradient(45deg, #a8dadc, #457b9d); /* Gradient from mint blue to deep teal */
+            color: #1d3557; /* Dark blue text for contrast */
+            padding: 20px 40px; /* Reduced padding for ribbon shape */
+            border-radius: 10px 10px 30px 30px / 10px 10px 40px 40px; /* Pointed ends like a ribbon */
+            font-size: 2.2em; /* Smaller font for better ribbon look */
+            font-weight: 800; /* Extra bold font */
+            text-align: center;
+            z-index: 20; /* Above the puzzle */
+            box-shadow: 0 10px 30px rgba(69, 123, 157, 0.7), 0 0 20px rgba(168, 218, 220, 0.5) inset; /* Soft, harmonious shadows */
+            pointer-events: none;
+            opacity: 0;
+            transition: all 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Dramatic spring effect */
+            text-transform: uppercase;
+            letter-spacing: 4px; /* Increased letter spacing */
+            text-shadow: 2px 2px 4px rgba(29, 53, 87, 0.5); /* Text shadow */
+            font-family: 'Georgia', serif; /* More elegant font */
+            border-bottom: 5px solid rgba(29, 53, 87, 0.3); /* Slight bottom border for thickness effect */
+            
+        }
+
+        .success-message.show {
+            opacity: 1;
+            transform: translate(-50%, 0) rotateX(0deg) scale(1); /* Appears without X rotation */
+        }
+
+        /* Animation for header on load */
+        .header-section h1 {
+            animation: slideInFromTop 1s ease-out forwards;
+        }
+        @keyframes slideInFromTop {
+            from { transform: translateY(-80px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="grid-container">
+
+        <!-- Section 1: Name and Puzzle Title -->
+        <div class="grid-section header-section">
+            <h1 class="text-4xl font-extrabold mb-2">Flexbox and CSS Grid Puzzle</h1>
+            <p class="text-xl">By: Burledianu Daria</p>
+            <p class="text-lg">Puzzle Chosen: Butterflies</p>
+        </div>
+
+        <!-- Section 2: Flex puzzle pieced together -->
+        <div class="grid-section puzzle-section">
+            <div class="puzzle-flex-container" id="puzzleContainer">
+                <!--
+                    Puzzle pieces are ordered here to correctly assemble the image.
+                    Using placehold.co to simulate image paths and content.
+                    The 'text' in the placeholder URL corresponds to the piece number
+                    to help visualize the correct order.
+                    Assuming a 4:3 rectangular grid, these are ordered row by row, left to right.
+                -->
+                <img src="images/puzzle1_Q.jpg" alt="Puzzle Piece 1" class="puzzle-piece" data-order="1">
+                <img src="images/puzzle1_G.jpg" alt="Puzzle Piece 2" class="puzzle-piece" data-order="2">
+                <img src="images/puzzle1_A.jpg" alt="Puzzle Piece 3" class="puzzle-piece" data-order="3">
+                <img src="images/puzzle1_J.jpg" alt="Puzzle Piece 4" class="puzzle-piece" data-order="4">
+                <img src="images/puzzle1_M.jpg" alt="Puzzle Piece 5" class="puzzle-piece" data-order="5">
+                <img src="images/puzzle1_P.jpg" alt="Puzzle Piece 6" class="puzzle-piece" data-order="6">
+                <img src="images/puzzle1_B.jpg" alt="Puzzle Piece 7" class="puzzle-piece" data-order="7">
+                <img src="images/puzzle1_H.jpg" alt="Puzzle Piece 8" class="puzzle-piece" data-order="8">
+                <img src="images/puzzle1_O.jpg" alt="Puzzle Piece 9" class="puzzle-piece" data-order="9">
+                <img src="images/puzzle1_E.jpg" alt="Puzzle Piece 10" class="puzzle-piece" data-order="10">
+                <img src="images/puzzle1_N.jpg" alt="Puzzle Piece 11" class="puzzle-piece" data-order="11">
+                <img src="images/puzzle1_C.jpg" alt="Puzzle Piece 12" class="puzzle-piece" data-order="12">
+                <img src="images/puzzle1_I.jpg" alt="Puzzle Piece 13" class="puzzle-piece" data-order="13">
+                <img src="images/puzzle1_F.jpg" alt="Puzzle Piece 14" class="puzzle-piece" data-order="14">
+                <img src="images/puzzle1_L.jpg" alt="Puzzle Piece 15" class="puzzle-piece" data-order="15">
+                <img src="images/puzzle1_K.jpg" alt="Puzzle Piece 16" class="puzzle-piece" data-order="16">
+                <!-- This is the "trick" piece, which is included but hidden via CSS -->
+                <img src="images/puzzle1_D.jpg" alt="Trick Piece (Hidden)" class="puzzle-piece hidden-piece" data-order="99">
+            </div>
+                <!-- Success message overlay -->
+                <div id="successMessage" class="success-message">Puzzle Solved!</div>
+            </div>
+        </div>
+
+        <!-- Section 3: Assignment Date -->
+        <div class="grid-section date-section">
+            <p>Assignment Completed On: June 15, 2025</p>
+        </div>
+
+    </div>
+
+    <script>
+        // JavaScript to check if all pieces are loaded and then show a "Puzzle Solved!" message
+        document.addEventListener('DOMContentLoaded', () => {
+            const puzzleContainer = document.getElementById('puzzleContainer');
+            const successMessage = document.getElementById('successMessage');
+            // Select all visible puzzle pieces (excluding the hidden one)
+            const puzzlePieces = puzzleContainer.querySelectorAll('.puzzle-piece:not(.hidden-piece)');
+            let loadedCount = 0;
+
+            // Function to check if all visible images are loaded
+            const checkAllImagesLoaded = () => {
+                loadedCount++;
+                if (loadedCount === puzzlePieces.length) {
+                    // All visible images loaded, now show the success message after a brief delay
+                    setTimeout(() => {
+                        successMessage.classList.add('show');
+                    }, 500); // 0.5 second delay
+                }
+            };
+
+            // Attach load listener to each visible puzzle piece
+            puzzlePieces.forEach(piece => {
+                if (piece.complete) { // Check if image is already loaded (from cache)
+                    checkAllImagesLoaded();
+                } else {
+                    piece.addEventListener('load', checkAllImagesLoaded);
+                    piece.addEventListener('error', () => {
+                        console.error('Failed to load image:', piece.src);
+                        // Still count it as loaded to not block the success message indefinitely
+                        checkAllImagesLoaded();
+                    });
+                }
+            });
+
+            // Fallback for cases where images might not trigger load events
+            // (e.g., if dynamically added or very fast loading)
+            // This ensures the message appears even if load events are missed for some reason.
+            setTimeout(() => {
+                if (!successMessage.classList.contains('show')) {
+                    successMessage.classList.add('show');
+                }
+            }, 3000); // Show message after 3 seconds if not already shown
+        });
+    </script>
+</body>
+</html>
